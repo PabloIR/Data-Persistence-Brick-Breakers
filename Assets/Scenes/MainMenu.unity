@@ -935,6 +935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInput: {fileID: 1327331504}
+  difficultySlider: {fileID: 0}
 --- !u!1 &1046206996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,6 +1552,7 @@ MonoBehaviour:
   playerName: 
   highScore: 0
   highScoreName: 
+  difficultySetting: 1
 --- !u!4 &1435534245
 Transform:
   m_ObjectHideFlags: 0

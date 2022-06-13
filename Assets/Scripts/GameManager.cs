@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public string playerName;
     public int highScore;
     public string highScoreName;
-    public int difficultySetting=1;
+    public int difficultySetting = 1;
     private void Awake()
     {
         //If instance isn't empty destroy the new Instance of GameManager
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     public void Exit()
     {
-        //Save user color on Exit
+        //Save Score and settings on Exit
         GameManager.gameManager.SaveHighScore();
         //Exit the Game
 #if UNITY_EDITOR
@@ -41,12 +41,13 @@ public class GameManager : MonoBehaviour
 #endif
     }
 
-   //[System.Serializable] required for JsonUtility, it will only transform things to JSON if they are tagged as Serializable.
+    //[System.Serializable] required for JsonUtility, it will only transform things to JSON if they are tagged as Serializable.
     [System.Serializable]
     class SaveData
     {
         public string highScoreName;
         public int highScore;
+        public int difficultySetting;
     }
     public void SaveHighScore()
     {
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
         SaveData data = new SaveData();
         data.highScoreName = highScoreName;
         data.highScore = highScore;
+        data.difficultySetting = difficultySetting;
 
         //Convert information in <data> to JSON
         string json = JsonUtility.ToJson(data);
@@ -75,6 +77,7 @@ public class GameManager : MonoBehaviour
 
             highScore = data.highScore;
             highScoreName = data.highScoreName;
+            difficultySetting = data.difficultySetting;
         }
     }
 }

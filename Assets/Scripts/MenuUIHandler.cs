@@ -12,19 +12,26 @@ public class MenuUIHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (difficultySlider != null)
+        {
+            difficultySlider.value = GameManager.gameManager.difficultySetting;
+        }
+        if (playerInput != null && GameManager.gameManager.playerName != "Player" && GameManager.gameManager.playerName != "")
+        {
+            playerInput.text = GameManager.gameManager.playerName;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void StartNew()
     {
         //If the Player name input field exist save player name
-        if(playerInput != null)
+        if (playerInput != null)
         {
             GameManager.gameManager.playerName = playerInput.text;
         }
@@ -40,9 +47,9 @@ public class MenuUIHandler : MonoBehaviour
     public void MainMenu()
     {
         //If the difficulty slider exist save the difficulty
-        if(difficultySlider != null)
+        if (difficultySlider != null)
         {
-            GameManager.gameManager.difficultySetting = (int) difficultySlider.value;
+            GameManager.gameManager.difficultySetting = (int)difficultySlider.value;
         }
         SceneManager.LoadScene(0);
     }
