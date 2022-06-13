@@ -12,20 +12,22 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
-    
+
     private bool m_Started = false;
     private int m_Points;
-    
-    private bool m_GameOver = false;
 
-    
+    private bool m_GameOver = false;
+    float gameOverCounter;
+
+    [SerializeField] Text GameOverCounterText;
+
     // Start is called before the first frame update
     void Start()
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
-        int[] pointCountArray = new [] {1,1,2,2,5,5};
+
+        int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
@@ -50,7 +52,7 @@ public class MainManager : MonoBehaviour
                 forceDir.Normalize();
 
                 Ball.transform.SetParent(null);
-                Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+                Ball.AddForce(forceDir * (2.0f * GameManager.gameManager.difficultySetting), ForceMode.VelocityChange);
             }
         }
         else if (m_GameOver)
@@ -59,6 +61,7 @@ public class MainManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+            GameOverCount();
         }
     }
 
@@ -72,5 +75,32 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        GameOverCounterText.gameObject.SetActive(true);
+
+        gameOverCounter = 10.0f;
+
+        if (GameManager.gameManager != null)
+        {
+            if (m_Points > GameManager.gameManager.highScore)
+            {
+                GameManager.gameManager.highScoreName = GameManager.gameManager.playerName;
+                GameManager.gameManager.highScore = m_Points;
+                GameManager.gameManager.SaveHighScore();
+            }
+        }
+
+    }
+
+    public void GameOverCount()
+    {
+        gameOverCounter -= Time.deltaTime;
+        if (gameOverCounter <= 0)
+        {
+            SceneManager.LoadScene(2);
+        }
+        else
+        {
+            GameOverCounterText.text = Mathf.Round(gameOverCounter).ToString();
+        }
     }
 }
